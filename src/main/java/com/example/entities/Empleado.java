@@ -1,5 +1,10 @@
 package com.example.entities;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.example.model.Genero;
 
 import jakarta.persistence.Entity;
@@ -30,7 +35,13 @@ public class Empleado {
     private String primerApellido;
     private String segundoApellido;
 
-    @Enumerated(EnumType.STRING)
+        @Enumerated(EnumType.STRING)
     private Genero genero;
+
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate fechaAlta;
+
+    private BigDecimal salario;
+
 
     }
