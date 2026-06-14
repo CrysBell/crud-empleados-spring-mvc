@@ -25,7 +25,4 @@ public class Telefono {
     private int id;
     
     private String numero;
-
-     @ManyToOne(fetch = FetchType.LAZY)
-    private Empleado empleado;
 }

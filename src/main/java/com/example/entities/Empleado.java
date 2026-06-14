@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
+import org.hibernate.engine.FetchStyle;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.example.model.Genero;
@@ -48,13 +49,5 @@ public class Empleado {
 
     private BigDecimal salario;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Departamento departamento;
-    
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "empleado")
-    private Set<Telefono> telefonos;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE,  mappedBy = "empleado")
-    private Set<Correo> correos;
 
     }
