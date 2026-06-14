@@ -51,10 +51,10 @@ public class Departamento {
          * El atributo mapedby apunta a una propiedad en el lado de muchos de la
          * relación, pues aunque la relaciones son bidireccionales hay que especificar
          * donde se va a crear la relación de clave externa, que al igual
-         * que en SQL es en el lado de muchos(un Departamento muchos empleados)
+         * que en SQL es en el lado de muchos(un Departamento tiene muchos empleados)
          */
         @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "departamento")
         private List<Empleado> empleados;
 
-        
+
 }
