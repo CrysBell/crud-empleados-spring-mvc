@@ -15,16 +15,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name= "correos")
+@Table(name="correos")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Correo implements Serializable{
-     private static final long serialVersionUID = 1L;
+public class Correo implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private static final long serialVersionUID = 1L;
+
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
     private String email;

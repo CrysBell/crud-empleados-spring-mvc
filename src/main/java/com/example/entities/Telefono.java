@@ -1,6 +1,5 @@
 package com.example.entities;
 
-
 import java.io.Serializable;
 
 import jakarta.persistence.Entity;
@@ -16,20 +15,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name= "telefonos")
+@Table(name="telefonos")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class Telefono implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class Telefono implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private static final long serialVersionUID = 1L;
     
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
     private String numero;
 
-     @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Empleado empleado;
 }
