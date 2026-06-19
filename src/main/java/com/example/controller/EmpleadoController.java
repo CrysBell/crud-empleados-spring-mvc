@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.entities.Correo;
 import com.example.entities.Empleado;
 import com.example.entities.Telefono;
 import com.example.services.DepartamentoService;
@@ -44,14 +46,16 @@ public class EmpleadoController {
 
     // Metodo que muestra el formulario de creación de empleados
     @GetMapping("/alta")
-    public String mostrarFormularioAlta(Model model) {
+    public String mostrarFormularioAlta(Model model, @ModelAttribute Empleado empleado) {
         // Se necesitan los departamentos desde la capa de servicios
         model.addAttribute("departamentos", departamentoService.getAllDepartamentos());
 
         // Se necesita enviar un objeto Empleado vacio, para que se vinculen sus
-        // propiedades
-        // con cada control (element, input, select, etc) del atributo
-        model.addAttribute("empleado", new Empleado());
+        // propiedades con cada control (element, input, select, etc) del atributo
+
+        //El codigo siguiente se comenta porque el objeto se pasa como atributo al modelo a traves
+        // de la anotación @ModelAtribute que se recibe como un parametro del metodo
+           //model.addAttribute("empleado", new Empleado());
 
         return "formularioAltaModificacion";
     }
@@ -73,23 +77,27 @@ public class EmpleadoController {
         //separados por comas, y convertirlos en listas de objetos Telefono y Correo,
         //para luego agregarlo al objeto Empleado antes de persistirlo en la BD
         
-        Set<Telefono> telefonos = new HashSet<Telefono>();
+        //Set<Telefono> telefonos = new HashSet<Telefono>();
 
         if (!numerosTelefono.isEmpty() && !numerosTelefono.isBlank()) {
 
-            String[] arrayNumerosTelefono = numerosTelefono.split(";");
-            List<String> listadoNumeros = Arrays.asList(arrayNumerosTelefono);
+        String[] arrayNumerosTelefono = numerosTelefono.split(";");
+        List<String> listadoNumeros = Arrays.asList(arrayNumerosTelefono);
 
             listadoNumeros.forEach(numero -> {
-                telefonos.add(
-                    Telefono.builder()
-                        .numero(numero)
-                        .empleado(empleado)
-                        .build()
-                );
+               empleado.getTelefonos().add(Telefono.builder().numero(numero).empleado(empleado).build());
             });
+            
+            //empleado.setTelefonos(telefonos);
+        }
 
-            empleado.setTelefonos(telefonos);
+        if (!direccionesCorreo.isEmpty() && !direccionesCorreo.isBlank()){
+        String[] arrayDirCorreos = direccionesCorreo.split(";");
+        List<String> listadoCorreos = Arrays.asList(arrayDirCorreos);
+
+            listadoCorreos.forEach(dirCorreo -> {
+                empleado.getEmails().add(Correo.builder().email(dirCorreo).empleado(empleado).build());
+            });
         }
 
         // Se recibe un objeto Empleado con los datos del formulario

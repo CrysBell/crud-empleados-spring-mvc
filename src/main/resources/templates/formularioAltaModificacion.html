@@ -232,7 +232,7 @@
             </div>
             <div>
                 <label for="departamentos">Departamento:</label>
-                <select name="departamentos" id="departamento" th:field="*{departamento}">
+                <select  id="departamento" th:field="*{departamento}">
                     <option value=""></option>
                     <option th:each="dpto:${departamentos}" th:value="${dpto.id}" th:text="${dpto.nombre}"></option>
                 </select>
