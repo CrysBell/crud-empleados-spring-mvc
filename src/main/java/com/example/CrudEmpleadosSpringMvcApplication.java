@@ -140,8 +140,8 @@ public class CrudEmpleadosSpringMvcApplication implements CommandLineRunner {
 				.salario(new BigDecimal(3300.50))
 				.telefonos(
 						Set.of(
-							Telefono.builder().numero("12347").build(),
-							Telefono.builder().numero("9876541").build()
+							Telefono.builder().numero("1234732").build(),
+							Telefono.builder().numero("98765412").build()
 								)
 						)
 				.emails(
