@@ -141,13 +141,14 @@ tbody tr:last-child td{
 </style>
 
 <body>
-    <h1>Listado de Empleados</h1>
-    <div>
-        <!-- el @ hace referencia que a cntinuación se adjunta una URL y el $ te especifica que es una petición-->
-        <a th:href="@{/empleados/alta}">Alta Empleado</a> 
-    </div>
-    <table>
-        <thead>
+	<h1>Listado de Empleados</h1>
+	
+	<div>
+		<a th:href="@{/empleados/alta}">Alta Empleado</a>
+	</div>
+	
+	<table>
+		<thead>
             <tr>
                 <th>Nombre</th>
                 <th>Primer Apellido</th>
@@ -156,22 +157,17 @@ tbody tr:last-child td{
                 <th>Salario</th>
                 <th>Fecha de Alta</th>
             </tr>
-        </thead>
-        <tbody>
-            <!-- "th" es la inicialización de Thymeleaf
-                 "each" es como un forEach mejorado para recuperar los datos del parámetro 
-                 que enviamos desde el EmpleadoController como model.addAtributte
-                 {} aquello que va dentro de llaves se considera Spring Expresion Language  -->
-            <tr th:each="empleado:${empleados}">
-                <td th:text="${empleado.nombre}"></td>
-                <td th:text="${empleado.primerApellido}"></td>
-                <td th:text="${empleado.segundoApellido}"></td>
-                <td th:text="${empleado.genero}"></td>
-                <td th:text="${empleado.salario}"></td>
-                <td th:text="${empleado.fechaAlta}"></td>
-            </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            		<tr th:each="empleado : ${empleados}">
+            			<td th:text="${empleado.nombre}"></td>
+            			<td th:text="${empleado.primerApellido}"></td>
+            			<td th:text="${empleado.segundoApellido}"></td>
+            			<td th:text="${empleado.genero}"></td>
+            			<td th:text="${empleado.salario}"></td>
+            			<td th:text="${empleado.fechaAlta}"></td>
+            		</tr>
+            </tbody>
+	</table>
 </body>
-
 </html>
