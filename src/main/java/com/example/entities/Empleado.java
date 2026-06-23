@@ -97,5 +97,7 @@ public class Empleado implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "empleado")
     @Builder.Default
     private Set<Correo> emails = new HashSet<>();
+
+    private String foto;
     
 }
