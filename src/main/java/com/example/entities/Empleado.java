@@ -21,8 +21,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -51,20 +56,35 @@ public class Empleado implements Serializable {
 	@NotNull(message = "El nombre no puede estar vacio")
 	@NotBlank(message = "El nombre no puede contener espacios en blanco, solamente")
 	@Size(min = 4, max = 30, message = "El nombre tiene que estar entre 4 y 30 caracteres")
+    @Pattern(
+    regexp = "^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(\\s)?)+$",
+    message = "El nombre debe comenzar con mayúscula y solo contener letras de la A a la Z")
     private String nombre;
 	
 	@NotNull(message = "El primer apellido no puede estar vacio")
 	@NotBlank(message = "El primer apellido no puede contener espacios en blanco, solamente")
 	@Size(min = 4, max = 30, message = "El primer apellido tiene que estar entre 4 y 30 caracteres")
+    @Pattern(
+    regexp = "^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(\\s)?)+$",
+    message = "El primer apellido debe comenzar con mayúscula y solo contener letras de la A a la Z")
     private String primerApellido;
+
+   
+    @NotBlank(message = "El segundo apellido no puede contener espacios en blanco, solamente")
+    @Size(min = 3, max = 30, message = "El segundo apellido tiene que estar entre 4 y 30 caracteres")
+    @Pattern(
+        regexp = "^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(\\s)?)+$",
+        message = "La primera letra en mayusculas y solo letras de la A a la Z")
     private String segundoApellido;
-    
+
     @Enumerated(EnumType.STRING)
     private Genero genero;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent(message = "La fecha de alta tiene que ser igual o anterior a la fecha actual")
     private LocalDate fechaAlta;
 
+    @DecimalMin(value = "1000.00", inclusive = true, message = "El salario no puede ser inferior a 1000")
     private BigDecimal salario;
 
     @ManyToOne(fetch = FetchType.LAZY)
