@@ -157,6 +157,7 @@ tbody tr:last-child td{
                 <th>Salario</th>
                 <th>Fecha de Alta</th>
                 <th> </th>
+                <th> </th>
             </tr>
             </thead>
             <tbody>
@@ -168,6 +169,7 @@ tbody tr:last-child td{
             			<td th:text="${empleado.salario}"></td>
             			<td th:text="${empleado.fechaAlta}"></td>
                         <td> <a th:href="@{/empleados/details/}+${empleado.id}" >Detalles</a></td> 
+                        <td> <a th:href="@{/empleados/update/}+${empleado.id}" >Actualizar</a></td> 
             		</tr>
             </tbody>
 	</table>
