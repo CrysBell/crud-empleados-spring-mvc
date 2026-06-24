@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Empleados</title>
+    <title>Detalles del Empleado</title>
 </head>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 *{
     margin: 0;
@@ -32,6 +31,21 @@ h1{
     text-align: center;
     color: #7a5fcf;
     font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 8px rgba(255,255,255,.8);
+}
+
+h2{
+    text-align: center;
+    color: #a65fcf;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 8px rgba(255,255,255,.8);
+}
+h3{
+    text-align: center;
+    color: #546dff;
+    font-size: 1rem;
     margin-bottom: 30px;
     text-shadow: 2px 2px 8px rgba(255,255,255,.8);
 }
@@ -139,37 +153,36 @@ tbody tr:last-child td{
     }
 }
 </style>
-
 <body>
-	<h1>Listado de Empleados</h1>
-	
-	<div>
-		<a th:href="@{/empleados/alta}">Alta Empleado</a>
-	</div>
-	
-	<table>
-		<thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Primer Apellido</th>
-                <th>Segundo Apellido</th>
-                <th>Genero</th>
-                <th>Salario</th>
-                <th>Fecha de Alta</th>
-                <th> </th>
-            </tr>
-            </thead>
-            <tbody>
-            		<tr th:each="empleado : ${empleados}">
-            			<td th:text="${empleado.nombre}"></td>
-            			<td th:text="${empleado.primerApellido}"></td>
-            			<td th:text="${empleado.segundoApellido}"></td>
-            			<td th:text="${empleado.genero}"></td>
-            			<td th:text="${empleado.salario}"></td>
-            			<td th:text="${empleado.fechaAlta}"></td>
-                        <td> <a th:href="@{/empleados/details/}+${empleado.id}" >Detalles</a></td> 
-            		</tr>
-            </tbody>
-	</table>
+    
+
+    <h1 th:text=" 'Detalles del Empleado: ' + ${empleado.nombre} + ' ' + ${empleado.primerApellido} + ' ' + ${empleado.segundoApellido} "></h1>
+    <h2 th:text=" 'Empleada en el Departamento de: ' + ${empleado.departamento.nombre}"></h2>
+
+    <div style="background-color: #f6f0ff; display: grid; grid-template-columns: auto auto auto;">
+        <!-- Telefonos del empleados -->
+        <div th:if="${empleado.telefonos.size() > 0}" style="margin: 20px;">
+            <h3 style="margin-right: 40px;">Telefonos:</h3>
+            <ul>
+                <li th:each=" telefono : ${empleado.telefonos}" th:text="${telefono.numero}"></li>
+            </ul>
+        </div>
+
+        <!-- Correos del empleados -->
+        <div th:if="${empleado.emails.size() > 0 }" style="margin: 20px;">
+         <h3 style="margin-right: 40px;" >Correos :</h3>
+            <ul>
+                <li th:each=" email : ${empleado.emails}" th:text="${email.email}"></li>
+            </ul>
+        </div>
+        
+        <!-- Fotos del empleados -->
+        <div th:if="${empleado.foto != null }" style="margin: 20px;">
+            <h3>Foto:</h3>
+            <img th:src="@{/imagenes/} + ${empleado.foto}" alt="Foto del empleado">
+        </div>
+    </div>
+
+
 </body>
 </html>

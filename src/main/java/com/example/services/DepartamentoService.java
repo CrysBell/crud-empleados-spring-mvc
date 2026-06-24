@@ -8,4 +8,5 @@ public interface DepartamentoService {
 
 	Departamento saveDepartamento(Departamento departamento);
 	List<Departamento> getAllDepartamentos();
+	
 }

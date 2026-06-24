@@ -102,33 +102,32 @@ public class CrudEmpleadosSpringMvcApplication implements CommandLineRunner {
 
 
 
-		// 		Empleado empleado2 = Empleado.builder()
-		// 		.nombre("Rossi")
-		// 		.primerApellido("Flower")
-		// 		.segundoApellido("Garden")
-		// 		.genero(Genero.MUJER)
-		// 		.fechaAlta(LocalDate.of(2023,03, 03))
-		// 		.departamento(departamento1)
-		// 		.salario(new BigDecimal(3300.50))
-		// 		.telefonos(
-		// 				Set.of(
-		// 					Telefono.builder().numero("1234567").build(),
-		// 					Telefono.builder().numero("9876541").build()
-		// 						)
-		// 				)
-		// 		.emails(
-		// 			Set.of(
-		// 				Correo.builder().email("emp2@g.com").build(),
-		// 				Correo.builder().email("emp2@gg.com").build(),
-		// 				Correo.builder().email("emp2@ggg.com").build()
-		// 					)
-		// 				)
-		// 		.build();
+		 		Empleado empleado2 = Empleado.builder()
+		 		.nombre("Rossalin")
+		 		.primerApellido("Flower")
+		 		.segundoApellido("Garden")
+		 		.genero(Genero.MUJER)
+				.fechaAlta(LocalDate.of(2026, 6, 23))
+		 		.departamento(departamento1)
+		 		.salario(new BigDecimal(3300.50))
+		 		.telefonos(
+		 				Set.of(
+		 					Telefono.builder().numero("1234567").build()
+		 						)
+						)
+		 		.emails(
+					Set.of(
+		 				Correo.builder().email("emp2@g.com").build(),
+		 				Correo.builder().email("emp2@gg.com").build(),
+		 				Correo.builder().email("emp2@ggg.com").build()
+		 					)
+		 				)
+		 		.build();
 
 
-		// 		empleado2.getTelefonos().forEach(telefono -> telefono.setEmpleado(empleado2));
+		 		empleado2.getTelefonos().forEach(telefono -> telefono.setEmpleado(empleado2));
 
-		// 		empleado2.getEmails().forEach(correo -> correo.setEmpleado(empleado2));	
+		 		empleado2.getEmails().forEach(correo -> correo.setEmpleado(empleado2));	
 
 		// 		Empleado empleado3 = Empleado.builder()
 		// 		.nombre("Geronimo")
@@ -162,7 +161,7 @@ public class CrudEmpleadosSpringMvcApplication implements CommandLineRunner {
 		
 		
 		empleadoService.saveEmpleado(empleado1);
-		// empleadoService.saveEmpleado(empleado2);
+		empleadoService.saveEmpleado(empleado2);
 		// empleadoService.saveEmpleado(empleado3);
 		
 
