@@ -179,7 +179,7 @@ tbody tr:last-child td{
         <!-- Fotos del empleados -->
         <div th:if="${empleado.foto != null }" style="margin: 20px;">
             <h3>Foto:</h3>
-            <img th:src="@{/imagenes/} + ${empleado.foto}" alt="Foto del empleado">
+            <img th:src="@{/imagenes/} + ${empleado.foto}" alt="Foto del empleado" width="300">
         </div>
     </div>
 
