@@ -1,7 +1,5 @@
 package com.example.controller;
 
-
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -102,8 +100,9 @@ public class EmpleadoController {
 		// Preguntar si me han envado foto para el empleado, y si es asi, guardar el
 		// nombre de la foto en la propiedad atributo o variable miembro de la clase,
 		// foto
-		//Guardar el contenido de la foto como un archivo en el sistema de archivos (File System) del servidor
-		if (file != null && !file.isEmpty()){
+		// Guardar el contenido de la foto como un archivo en el sistema de archivos
+		// (File System) del servidor
+		if (file != null && !file.isEmpty()) {
 
 			Path rutaRelativa = Paths.get("src/main/resources/static/imagenes");
 
@@ -119,7 +118,6 @@ public class EmpleadoController {
 				e.printStackTrace();
 			}
 		}
-
 
 		LOG.info("Objeto empleado recibido ");
 		LOG.info(empleado.toString());
@@ -153,19 +151,17 @@ public class EmpleadoController {
 						.email(dirCorr).empleado(empleado).build());
 			});
 		}
-		
-        //Antes de persistir el empleado hay que eliminar los telefonos y los correos que tenga
+
+		// Antes de persistir el empleado hay que eliminar los telefonos y los correos
+		// que tenga
 		if (empleado.getId() != 0) {
-			
+
 			if (telefonoService.existsByEmpleado(empleado))
 				telefonoService.deleteByEmpleado(empleado);
 
 			if (correoService.existsByEmpleado(empleado))
 				correoService.deleteByEmpleado(empleado);
 		}
-		
-		
-		
 
 		// Se recibe un objeto Empleado con los datos del formulario
 		// Se envía a la capa de servicios para que lo guarde en la BD
@@ -174,62 +170,90 @@ public class EmpleadoController {
 		return "redirect:/empleados/listar"; // Redirige a la lista de empleados
 	}
 
-
-	//Método que muestra los detalles de un empleado cuyo id se recibe como parámetro
+	// Método que muestra los detalles de un empleado cuyo id se recibe como
+	// parámetro
 	@GetMapping("/details/{id}")
-	public String mostrarDetalles (Model model, 
-		@PathVariable(name = "id", required = true) int empleado_id){
+	public String mostrarDetalles(Model model,
+			@PathVariable(name = "id", required = true) int empleado_id) {
 
-	//recuperar el empleado cuyo id se recibe como parametro
-	model.addAttribute("empleado", empleadoService.getEmpleadoById(empleado_id));
+		// recuperar el empleado cuyo id se recibe como parametro
+		model.addAttribute("empleado", empleadoService.getEmpleadoById(empleado_id));
 
 		return "details";
 	}
 
-
-
-	//Metodo para actualizar a un empleado
-	//Muestra en el formulario de Alta/Modificacion la información del empleado que se va a actualizar
+	// Metodo para actualizar a un empleado
+	// Muestra en el formulario de Alta/Modificacion la información del empleado que
+	// se va a actualizar
 	@GetMapping("/update/{id}")
-	public String updateEmpleado(Model model, @PathVariable(name = "id", required = true) int idEmpleado){
-	
-	Empleado empleado = empleadoService.getEmpleadoById(idEmpleado);
+	public String updateEmpleado(Model model, @PathVariable(name = "id", required = true) int idEmpleado) {
 
-	//recuperar el empleado cuyo id se recibe como parametro
-	model.addAttribute("empleado", empleado);
+		Empleado empleado = empleadoService.getEmpleadoById(idEmpleado);
 
+		// recuperar el empleado cuyo id se recibe como parametro
+		model.addAttribute("empleado", empleado);
 
-    model.addAttribute("departamentos", departamentoService.getAllDepartamentos());
+		model.addAttribute("departamentos", departamentoService.getAllDepartamentos());
 
+		// Procesando los telefonos y los correos porque no se deben hacer los calculos
+		// en la vista
 
-	//Procesando los telefonos y los correos porque no se deben hacer los calculos en la vista
-	
-	Set <Telefono> telefonos = empleado.getTelefonos(); 
+		Set<Telefono> telefonos = empleado.getTelefonos();
 
-	if(telefonos.size() > 0 ){
-		
-		String numerosTelefono = telefonos.stream()
-		.map(telefono -> telefono.getNumero())
-		.collect(Collectors.joining(";"));
+		if (telefonos.size() > 0) {
 
-		model.addAttribute("numerosTelefono", numerosTelefono);
-	}
+			String numerosTelefono = telefonos.stream()
+					.map(telefono -> telefono.getNumero())
+					.collect(Collectors.joining(";"));
 
-	Set<Correo> correos = empleado.getEmails();
+			model.addAttribute("numerosTelefono", numerosTelefono);
+		}
 
-	if (correos.size() > 0 ) {
-		String direccionesCorreos = correos.stream()
-		.map(correo -> correo.getEmail())
-		.collect(Collectors.joining(";"));	
+		Set<Correo> correos = empleado.getEmails();
 
-		model.addAttribute("direccionesCorreos", direccionesCorreos);
-	}
-	
+		if (correos.size() > 0) {
+			String direccionesCorreos = correos.stream()
+					.map(correo -> correo.getEmail())
+					.collect(Collectors.joining(";"));
 
+			model.addAttribute("direccionesCorreos", direccionesCorreos);
+		}
 
 		return "formularioAltaModificacion";
 	}
 
+	// Metodo para eliminar un empleado, con sus correos y sus telefonos
+	// correspondientes
+	// Hay que eliminar tambien el archivo de foto del empleado, en caso de tenerla
+	@GetMapping("/delete/{idEmpleado}")
+	public String deleteEmpleado(Model model, @PathVariable int idEmpleado) {
 
+		// Comprobar si el empleado tiene foto para eliminarla
+
+		Empleado empleadoEliminar = empleadoService.getEmpleadoById(idEmpleado);
+
+		if (empleadoEliminar.getFoto() != null) {
+
+			// Ruta relativa del fichero que se va a eliminar
+			Path rutaRelativa = Paths.get("src/main/resources/static/imagenes/"
+					+ empleadoEliminar.getFoto());
+
+			if (Files.exists(rutaRelativa)) {
+
+				try {
+					Files.delete(rutaRelativa);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		// Eliminar el empleado
+
+		empleadoService.deleteEmpleado(empleadoEliminar);
+
+		return "redirect:/empleados/listar";
+	}
 
 }
